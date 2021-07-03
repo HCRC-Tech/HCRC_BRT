@@ -15,6 +15,7 @@ services:
       - redis
     ports:
       - 8080:80
+      - 8443:443
     volumes:
       - ./src:/var/www/html
     networks:
