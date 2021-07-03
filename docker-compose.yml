@@ -1,0 +1,64 @@
+version: "3.8"
+
+networks:
+  laravel:
+    name: laravel
+
+services:
+  brt:
+    build:
+      context: .
+      dockerfile: brt.dockerfile
+    container_name: brt
+    depends_on:
+      - mysql
+    ports:
+      - 8080:80
+    volumes:
+      - ./src:/var/www/html
+      - ./apache/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    networks:
+      - laravel
+
+  mysql:
+    container_name: mysql
+    image: mysql:8.0
+    ports:
+      - 4306:3306
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: laraveldb
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - laravel
+
+  composer:
+    image: composer:latest
+    container_name: composer
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    networks:
+      - laravel
+
+  npm:
+    image: node:current-alpine
+    container_name: npm
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    entrypoint: ["npm"]
+    networks:
+      - laravel
+  
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - 6379:6379
+    networks:
+      - laravel
