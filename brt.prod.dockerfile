@@ -1,4 +1,5 @@
 # PHP-Apache Dockerfile, named brt for shorthand
+# of Behavior Rating Tool.
 FROM php:7.4.1-apache
 
 USER root
@@ -14,6 +15,8 @@ RUN apt-get update && apt-get install -y \
     zip \
     curl \
     unzip \
+    ffmpeg \
+    supervisor \
     && docker-php-ext-configure gd \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install pdo_mysql \
