@@ -67,6 +67,7 @@ class VideoController extends Controller
                         'name' => $video->name,
                     ]);
                 } catch (Exception $exception) {
+					Log::error(['>>> VideoController - store: ',$exception]);
                     abort(500, 'Failed to process video');
                 }
             } else {
