@@ -1,0 +1,6 @@
+node_modules/builtin-status-codes/browser.js:43:  "422": "Unprocessable Entity",
+node_modules/spdy-transport/lib/spdy-transport/protocol/spdy/constants.js:127:  422: 'Unprocessable Entity', // RFC 4918
+node_modules/statuses/codes.json:45:  "422": "Unprocessable Entity",
+node_modules/eventsource/example/eventsource-polyfill.js:9430:  "422": "Unprocessable Entity",
+vendor/symfony/http-foundation/Response.php:190:        422 => 'Unprocessable Entity',                                        // RFC4918
+vendor/guzzlehttp/psr7/src/Response.php:59:        422 => 'Unprocessable Entity',

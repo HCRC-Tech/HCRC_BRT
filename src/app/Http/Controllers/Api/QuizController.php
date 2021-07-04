@@ -45,18 +45,24 @@ class QuizController extends Controller
 
     public function createQuiz(Request $request)
     {
+		Log::info(['>>> QuizController - createQuiz: .']);
         $quiz = new Quiz;
         $quiz->code = $request->code;
         $quiz->animal = $request->animal;
         $quiz->video = $request->video;
         $quiz->question = $request->question;
         $quiz->save();
+		
+		Log::info(['>>> QuizController - createQuiz: 1']);
 
         // iterate each question_options, create quiz_question_option
         $options = $request->quiz_question_options;
         // \Log::info($options);
+		
+		Log::info(['>>> QuizController - createQuiz: 2']);
 
         foreach ($options as $option) {
+			Log::info(['>>> QuizController - createQuiz: 3: ', $option['title']]);
             $opt = new QuizOption;
             $opt->quiz_id = $quiz->id;
             $opt->type = $option['type'];
@@ -65,6 +71,8 @@ class QuizController extends Controller
             $opt->is_solution = $option['is_solution'];
             $opt->save();
         }
+		
+		Log::info(['>>> QuizController - createQuiz: 4']);
 
         return response()->json(['success' => true, 'last_insert_id' => $quiz->id], 200);
     }
