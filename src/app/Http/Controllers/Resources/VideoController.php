@@ -25,8 +25,9 @@ class VideoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()//($id)
+    public function index($id)
     {
+		Log::info(['>>> VideoController - index: .']);
         //
     }
 
