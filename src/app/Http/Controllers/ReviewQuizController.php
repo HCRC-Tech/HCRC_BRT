@@ -21,11 +21,13 @@ class ReviewQuizController extends Controller
     private $qc;
 
     public function __construct() {
+        Log::info(['>>> ReviewQuizController - __construct: ']);
         $this->uc = new UserController();
         $this->qc = new QuizController();
     }
 
     public function getUserQuizzes() {
+        Log::info(['>>> ReviewQuizController - getUserQuizzes: ']);
         if (Auth::user()){
             $id = Auth::id();
             $quizzes = DB::table('users')
@@ -61,6 +63,7 @@ class ReviewQuizController extends Controller
     }
 
     public function exportUserQuizSummary() {
+        Log::info(['>>> ReviewQuizController - exportUserQuizSummary: ']);
         $admin_data = $this->getAllStudentQuizzes();
         $csvFile = "Student,Quiz Code,Number of Attempts,Best Score,Interpretation, Best Time\n";
 
@@ -77,6 +80,7 @@ class ReviewQuizController extends Controller
     }
 
     public function exportUserQuizSummaryJson() {
+        Log::info(['>>> ReviewQuizController - exportUserQuizSummaryJson: ']);
         $admin_data = $this->getAllStudentQuizzes();
         $file = array();
         foreach ($admin_data as $row) {
@@ -100,6 +104,7 @@ class ReviewQuizController extends Controller
 
     public function getReviewQuizByUserAttemptId($userAttemptId)
     {
+        Log::info(['>>> ReviewQuizController - getReviewQuizByUserAttemptId: ', $userAttemptId]);
         $quiz = $this->getQuizByUserAttemptID($userAttemptId);
         $studentAnswers = $this->getAnswers($userAttemptId);
 
@@ -119,6 +124,7 @@ class ReviewQuizController extends Controller
     }
 
     public function getReviewUserQuiz($id, $quiz) {
+        Log::info(['>>> ReviewQuizController - getReviewUserQuiz: ', $id]);
         if($quiz == 'all') {
             $quiz = '%';
         }
@@ -150,7 +156,7 @@ class ReviewQuizController extends Controller
             ->where('quizzes.code', 'LIKE', $quiz)
             ->get();
 
-            Log::info(['>>> ReviewQuizController - getReviewUserQuiz: ',$quizzes]);
+            Log::info(['>>> ReviewQuizController - getReviewUserQuiz:: ',$quizzes]);
             
             return view('review_all')->with(['quizzes' => $quizzes, 'admin_data' => 'STUDENT']);  // if admin_data==STUDENT, means admin revice single user quiz
         }
@@ -162,6 +168,7 @@ class ReviewQuizController extends Controller
 
     private function getQuizByUserAttemptID($userAttemptId)
     {
+        Log::info(['>>> ReviewQuizController - getQuizByUserAttemptID: ', $userAttemptId]);
         // Implement logic to fetch quiz by userAttemptID
         $quizID = DB::table('quizzes')
             ->select('quizzes.id')
@@ -183,6 +190,7 @@ class ReviewQuizController extends Controller
 
     private function getAnswers($userAttemptId) {
 
+        Log::info(['>>> ReviewQuizController - getAnswers: ', $userAttemptId]);
         $data = DB::table('user_attempts')
         ->select(
             'quizzes.code as quiz',
@@ -206,6 +214,7 @@ class ReviewQuizController extends Controller
     }
 
     private function getAllStudentQuizzes() {
+        Log::info(['>>> ReviewQuizController - getAllStudentQuizzes: ']);
         $data = DB::table('users')
         ->select(
             'users.id',
@@ -227,7 +236,7 @@ class ReviewQuizController extends Controller
         ->get();
 
         $data = $data->where('best_index', '=', '1');
-        Log::info(['>>> review-by-admin: getAllStudentQuizzes: ',$data]);
+        Log::info(['>>> review-by-admin: getAllStudentQuizzes:: ',$data]);
         return $data;
     }
 }

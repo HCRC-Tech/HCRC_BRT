@@ -50,6 +50,9 @@ class VideoController extends Controller
     public function store(StoreVideoRequest $request)
     {
 		Log::info(['>>> VideoController - store: .']);
+		Log::debug(['>>> VideoController - store: .']);
+		Log::error(['>>> VideoController - store: .']);
+		Log::warning(['>>> VideoController - store: .']);
         if ($request->user()->can('create', Video::class)) {
 			Log::info(['>>> VideoController - store: i1']);
             if ($request->has('video')) {
@@ -103,6 +106,7 @@ class VideoController extends Controller
      */
     public function show($id)
     {
+		Log::info(['>>> VideoController - show: .', $id]);
         if (Auth::user()) {
             $video = Video::find($id);
             $videoFile = Storage::disk('video_storage')->get($video->path);
@@ -122,6 +126,7 @@ class VideoController extends Controller
      */
     public function edit($id)
     {
+		Log::info(['>>> VideoController - edit: .', $id]);
         //
     }
 
@@ -134,6 +139,7 @@ class VideoController extends Controller
      */
     public function update(Request $request, $id)
     {
+		Log::info(['>>> VideoController - update: .', $id]);
         //
     }
 
@@ -145,6 +151,7 @@ class VideoController extends Controller
      */
     public function destroy($id)
     {
+		Log::info(['>>> VideoController - destroy: .', $id]);
         //
     }
 }

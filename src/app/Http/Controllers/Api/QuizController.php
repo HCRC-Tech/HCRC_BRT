@@ -16,6 +16,7 @@ class QuizController extends Controller
 {
     public function getAllQuizzes()
     {
+		Log::info(['>>> QuizController - getAllQuizzes: .']);
         // Implement logic to fetch all quizzes
         $quizzes = Quiz::all();
         return $quizzes;
@@ -23,6 +24,7 @@ class QuizController extends Controller
 
     public function getQuiz($id)
     {
+		Log::info(['>>> QuizController - getQuiz: .', $id]);
         // Implement logic to fetch quiz
 
         $quizOps = DB::table('quiz_options')
@@ -36,6 +38,7 @@ class QuizController extends Controller
 
     public function getQuizAttempts($id)
     {
+		Log::info(['>>> QuizController - getQuizAttempts: .', $id]);
         // Implement logic to fetch quiz attempts
 
         $attempts = DB::table('attempt_quizzes')
@@ -80,6 +83,7 @@ class QuizController extends Controller
 
     public function updateQuiz(Request $request, $id)
     {
+		Log::info(['>>> QuizController - updateQuiz: .', $id]);
         if (Quiz::where('id', $id)->exists()) {
             \Log::info($request);
 
@@ -132,6 +136,7 @@ class QuizController extends Controller
 
     public function deleteQuiz($id)
     {
+		Log::info(['>>> QuizController - deleteQuiz: .', $id]);
         Quiz::find($id)->delete();
     }
 }
