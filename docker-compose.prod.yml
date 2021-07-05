@@ -14,9 +14,11 @@ services:
       - mysql
       - redis
     ports:
-      - 8080:80
+      - 80:80
+      - 443:443
     volumes:
       - ./src:/var/www/html
+      - ./apache/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     networks:
       - laravel
 
