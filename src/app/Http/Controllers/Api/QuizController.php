@@ -85,10 +85,10 @@ class QuizController extends Controller
     {
 		Log::info(['>>> QuizController - updateQuiz: .', $id]);
         if (Quiz::where('id', $id)->exists()) {
-            \Log::info($request);
+            Log::info($request);//\Log::info($request);
 
             $quiz = Quiz::findOrFail($id);
-            \Log::info($quiz);
+            Log::info($quiz);//\Log::info($quiz);
 
             if ($request['quiz_question_options'] == null) {
                 $quiz->update($request->all());

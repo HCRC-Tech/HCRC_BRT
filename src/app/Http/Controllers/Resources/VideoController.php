@@ -25,10 +25,11 @@ class VideoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
 		Log::info(['>>> VideoController - index: .']);
         //
+		//return "test"
     }
 
     /**
@@ -101,15 +102,15 @@ class VideoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $video
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($video)
     {
-		Log::info(['>>> VideoController - show: .', $id]);
+		Log::info(['>>> VideoController - show: .', $video]);
         if (Auth::user()) {
-            $video = Video::find($id);
-            $videoFile = Storage::disk('video_storage')->get($video->path);
+            $model = Video::find($video); //Video::find($id);
+            $videoFile = Storage::disk('video_storage')->get($model->path);
             $response = FacadeResponse::make($videoFile, 200);
             $response->header('Content-Type', 'video/mp4');
             return $response;

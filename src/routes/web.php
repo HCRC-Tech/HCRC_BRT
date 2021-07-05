@@ -25,8 +25,10 @@ use App\Http\Controllers\JsonController;
 
 Auth::routes();
 
-Route::resource('users', UserController::class);
-Route::resource('videos', VideoController::class);
+Route::resource('users_class', UserController::class);
+Route::resource('videos_class', VideoController::class);
+Route::get('/videos/show/{video}', [VideoController::class, 'show'])->name('quiz.show'); //confirm quiz table has foreign key named video that is video id
+Route::post('/videos/store', [VideoController::class, 'store'])->name('quiz.store');
 
 /**
  * Login page is the landing page when we first visit the website
@@ -46,12 +48,8 @@ Route::get('/create_quiz', [PagesController::class, 'getCreateQuiz'])->name('cre
 /**
  * Edit quiz page
  */
+Route::get('/edit_quiz', [PagesController::class, 'getEditQuiz'])->name('edit_quiz_route');
 Route::get('/edit_quiz/{id}', [PagesController::class, 'getEditQuizByID'])->name('edit_quiz_id_route');
-
-/**
-* Route to delete the selected quiz
-*/
-Route::get('/edit_quiz/{id}/delete', [EditQuizController::class, 'deleteQuiz'])->name('delete_quiz_id_route');
 
 
 /**
@@ -80,9 +78,14 @@ Route::get('/quizzes/{id}', [PagesController::class, 'getQuizById'])->name('quiz
 Route::get('/users', [PagesController::class, 'getUsers'])->name('users_route');;
 
 /**
+ * Display the user
+ */
+Route::get('/user/{id}', [PagesController::class, 'getUserById']);
+
+/**
  * Perform an action on the single user page
  */
-Route::get('/users/{actionName}/{id}', [SingleUserController::class, 'action']);
+Route::post('/user/{id}', [SingleUserController::class, 'action']);
 
 /**
  * Display review page
@@ -126,7 +129,7 @@ Route::post('/create_quiz', [CreateQuizController::class, 'createQuiz']);
  */
 Route::post('/confirmation', [NewAccountController::class, 'createAccount']);
 
-/**
+/** 
  * Route for submitting a quiz attempt
  */
 Route::post('/quizzes/{id}', [QuizAttemptController::class, 'submitQuizAttempt']);
@@ -136,7 +139,6 @@ Route::post('/quizzes/{id}', [QuizAttemptController::class, 'submitQuizAttempt']
  */
 Route::get('/export', [PagesController::class, 'exportData']);
 Route::get('/export/users', [ExportController::class, 'exportUsers'])->name('export_users_route');
-Route::get('/export/users_json', [ExportController::class, 'exportUsersJson'])->name('export_users_json');
 Route::get('/export/user_quizzes', [ExportController::class, 'exportUserAttempts'])->name('export_user_quizzes_route');
 Route::get('/export/user_quizzes_summary', [ReviewQuizController::class, 'exportUserQuizSummary'])->name('export_all_student_quizzes');
 Route::get('/export/user_quizzes_summary_json', [ReviewQuizController::class, 'exportUserQuizSummaryJson'])->name('export_all_student_quizzes_json');
